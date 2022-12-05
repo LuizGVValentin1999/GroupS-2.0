@@ -1,11 +1,13 @@
 import styles from './Post.module.css';
+import { Comment } from './Comment';
+import { Avatar } from './Avarar';
 
 export function Post(props) {
   return (
     <article className={styles.post}>
       <header>
         <div className={styles.author}>
-          <img className={styles.avatar} src='https://avatars.githubusercontent.com/u/59962559?v=4' />
+          <Avatar src="https://avatars.githubusercontent.com/u/59962559?v=4" />
           <div className={styles.authorInfo}>
             <strong>Luiz Valentin</strong>
             <span>Dev Master</span>
@@ -28,6 +30,11 @@ export function Post(props) {
           <button type="submit">Publicar</button>
         </footer>
       </form>
+      <div className={styles.commentList}>
+        <Comment />
+        <Comment />
+        <Comment />
+      </div>
 
     </article>
   )
