@@ -54,13 +54,13 @@ export function Post({ author, publishedAt, content }) {
         {content.map(line => {
           switch (line.type) {
             case 'paragraph':
-              return <p>{line.content}</p>;
+              return <p key={line.content}>{line.content}</p>;
               break;
             case 'link':
-              return <p><a href="#">{line.content}</a></p>
+              return <p key={line.content}><a href="#">{line.content}</a></p>
               break;
             default:
-              return <p>{line.content}</p>;
+              return <p key={line.content}>{line.content}</p>;
           }
 
         })}
@@ -80,7 +80,7 @@ export function Post({ author, publishedAt, content }) {
       </form>
       <div className={styles.commentList}>
         {comments.map(comment => {
-          return <Comment content={comment} />
+          return <Comment key={comment} content={comment} />
         })}
       </div>
     </article>
