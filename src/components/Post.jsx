@@ -1,31 +1,58 @@
-import styles from './Post.module.css';
-import { Comment } from './Comment';
-import { Avatar } from './Avarar';
+import { format, formatDistanceToNow } from 'date-fns';
+import ptBR from 'date-fns/locale/pt-BR';
 
-export function Post(props) {
+import { Avatar } from './Avatar';
+import { Comment } from './Comment';
+
+import styles from './Post.module.css';
+
+export function Post({ author, publishedAt, content }) {
+  const publishedDateFormatted = format(publishedAt, "d 'de' LLLL 'às' HH:mm'h'", {
+    locale: ptBR,
+  });
+
+  const publishedDateRelativeToNow = formatDistanceToNow(publishedAt, {
+    locale: ptBR,
+    addSuffix: true
+  });
+
   return (
     <article className={styles.post}>
       <header>
         <div className={styles.author}>
-          <Avatar src="https://avatars.githubusercontent.com/u/59962559?v=4" />
+          <Avatar src={author.avatarUrl} />
           <div className={styles.authorInfo}>
-            <strong>Luiz Valentin</strong>
-            <span>Dev Master</span>
+            <strong>{author.name}</strong>
+            <span>{author.role}</span>
           </div>
         </div>
-        <time title='11 de novembro às 08:30h' dateTime='2002-11-11 08:30:30'>Publicado há 1h</time>
+
+        <time title={publishedDateFormatted} dateTime={publishedAt.toISOString()}>
+          {publishedDateRelativeToNow}
+        </time>
       </header>
+
       <div className={styles.content}>
-      <p>batata é muito bom meu parceiro</p>
+        {content.map(line => {
+         switch (line.type) {
+           case 'paragraph':
+              return <p>{line.content}</p>;
+            break;
+           case 'link':
+            return <p><a href="#">{line.content}</a></p>
+             break;
+           default:
+            return <p>{line.content}</p>;
+         }
+
+        })}
       </div>
-     
+
       <form className={styles.commentForm}>
         <strong>Deixe seu feedback</strong>
-
         <textarea
           placeholder="Deixe um comentário"
         />
-
         <footer>
           <button type="submit">Publicar</button>
         </footer>
@@ -35,7 +62,6 @@ export function Post(props) {
         <Comment />
         <Comment />
       </div>
-
     </article>
   )
 }
