@@ -1,12 +1,11 @@
-import { format, formatDistanceToNow } from 'date-fns';
-import ptBR from 'date-fns/locale/pt-BR';
-import { ChangeEvent, FormEvent, InvalidEvent, useState } from 'react';
+import { format, formatDistanceToNow } from "date-fns";
+import ptBR from "date-fns/locale/pt-BR";
+import { ChangeEvent, FormEvent, InvalidEvent, useState } from "react";
 
-import { Avatar } from './Avatar';
-import { Comment } from './Comment';
+import { Avatar } from "./Avatar";
+import { Comment } from "./Comment";
 
-import styles from './Post.module.css';
-
+import styles from "./Post.module.css";
 
 interface Author {
   name: string;
@@ -15,7 +14,7 @@ interface Author {
 }
 
 interface Content {
-  type: 'paragraph' | 'link';
+  type: "paragraph" | "link";
   content: string;
 }
 
@@ -25,42 +24,44 @@ interface PostProps {
   content: Content[];
 }
 
-export function Post({ author, publishedAt, content }:PostProps) {
-  const [comments, setComments] = useState([
-    'Post muito bacana, hein?!'
-  ]);
+export function Post({ author, publishedAt, content }: PostProps) {
+  const [comments, setComments] = useState(["Post muito bacana, hein?!"]);
 
-  const [newCommentText, setNewCommentText] = useState('');
+  const [newCommentText, setNewCommentText] = useState("");
 
-  const publishedDateFormatted = format(publishedAt, "d 'de' LLLL 'às' HH:mm'h'", {
-    locale: ptBR,
-  });
+  const publishedDateFormatted = format(
+    publishedAt,
+    "d 'de' LLLL 'às' HH:mm'h'",
+    {
+      locale: ptBR,
+    }
+  );
 
-  function handleCrateNewComment(event: FormEvent) { 
-    event.preventDefault()
+  function handleCrateNewComment(event: FormEvent) {
+    event.preventDefault();
 
     setComments([...comments, newCommentText]);
-    setNewCommentText('');
+    setNewCommentText("");
   }
 
   function handleNewCommentChange(event: ChangeEvent<HTMLTextAreaElement>) {
-    event.target.setCustomValidity('');
+    event.target.setCustomValidity("");
     setNewCommentText(event.target.value);
   }
 
   function handleNewCommentInvalid(event: InvalidEvent<HTMLTextAreaElement>) {
-    event.target.setCustomValidity('Esse campo é obrigatório !');
+    event.target.setCustomValidity("Esse campo é obrigatório !");
   }
 
   const publishedDateRelativeToNow = formatDistanceToNow(publishedAt, {
     locale: ptBR,
-    addSuffix: true
+    addSuffix: true,
   });
 
-  function deleteComment(commentToDelete:string) {
-    const commentsWithoutDeletedOne = comments.filter(comment => {
+  function deleteComment(commentToDelete: string) {
+    const commentsWithoutDeletedOne = comments.filter((comment) => {
       return comment !== commentToDelete;
-    })
+    });
 
     setComments(commentsWithoutDeletedOne);
   }
@@ -78,24 +79,30 @@ export function Post({ author, publishedAt, content }:PostProps) {
           </div>
         </div>
 
-        <time title={publishedDateFormatted} dateTime={publishedAt.toISOString()}>
+        <time
+          title={publishedDateFormatted}
+          dateTime={publishedAt.toISOString()}
+        >
           {publishedDateRelativeToNow}
         </time>
       </header>
 
       <div className={styles.content}>
-        {content.map(line => {
+        {content.map((line) => {
           switch (line.type) {
-            case 'paragraph':
+            case "paragraph":
               return <p key={line.content}>{line.content}</p>;
               break;
-            case 'link':
-              return <p key={line.content}><a href="#">{line.content}</a></p>
+            case "link":
+              return (
+                <p key={line.content}>
+                  <a href="#">{line.content}</a>
+                </p>
+              );
               break;
             default:
               return <p key={line.content}>{line.content}</p>;
           }
-
         })}
       </div>
 
@@ -110,20 +117,23 @@ export function Post({ author, publishedAt, content }:PostProps) {
           required
         />
         <footer>
-          <button type="submit" disabled={isNewCommentEmpty}>Publicar</button>
+          <button type="submit" disabled={isNewCommentEmpty}>
+            Publicar
+          </button>
         </footer>
       </form>
       <div className={styles.commentList}>
-        {comments.map(comment => {
+        {comments.map((comment) => {
           return (
             <Comment
               key={comment}
               content={comment}
               onDeleteComment={deleteComment}
             />
-          )
+          );
         })}
       </div>
     </article>
-  )
-}31
+  );
+}
+31;

@@ -1,7 +1,7 @@
-import styles from './Comment.module.css';
+import styles from "./Comment.module.css";
 import { useState } from "react";
-import { ThumbsUp, Trash } from 'phosphor-react';
-import { Avatar } from './Avatar';
+import { ThumbsUp, Trash } from "phosphor-react";
+import { Avatar } from "./Avatar";
 
 interface CommentProps {
   content: string;
@@ -16,19 +16,25 @@ export function Comment({ content, onDeleteComment }: CommentProps) {
   }
   function handleLikeComment() {
     setLikeCount((state) => {
-      return state + 1
+      return state + 1;
     });
   }
   return (
     <div className={styles.comment}>
-      <Avatar hasBorder={false} src="https://avatars.githubusercontent.com/u/59962559?v=4" alt="" />
+      <Avatar
+        hasBorder={false}
+        src="https://avatars.githubusercontent.com/u/59962559?v=4"
+        alt=""
+      />
 
       <div className={styles.commentBox}>
         <div className={styles.commentContent}>
           <header>
             <div className={styles.authorAndTime}>
               <strong>Luiz Valentin</strong>
-              <time title="11 de Maio às 08:13h" dateTime="2022-05-11 08:13:00">Cerca de 1h atrás</time>
+              <time title="11 de Maio às 08:13h" dateTime="2022-05-11 08:13:00">
+                Cerca de 1h atrás
+              </time>
             </div>
 
             <button onClick={handleDeleteComment} title="Deletar comentário">
@@ -47,5 +53,5 @@ export function Comment({ content, onDeleteComment }: CommentProps) {
         </footer>
       </div>
     </div>
-  )
+  );
 }
