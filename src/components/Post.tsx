@@ -25,7 +25,7 @@ interface PostProps {
 }
 
 export function Post({ author, publishedAt, content }: PostProps) {
-  const [comments, setComments] = useState(["Post muito bacana, hein?!"]);
+  const [comments, setComments] = useState([""]);
 
   const [newCommentText, setNewCommentText] = useState("");
 
